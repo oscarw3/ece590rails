@@ -11,17 +11,20 @@ class TextsController < ApplicationController
 	twilio_token = "5bca1b3ae1171cad2445f85052a9af22"
 	@twilio_client = Twilio::REST::Client.new twilio_sid, twilio_token
 
-	
+	begin
 	tonumber = params["text"]["tonumber"]
 	fromnumber = params["text"]["fromnumber"]
 	message = params["text"]["message"]
-	 @twilio_client.account.messages.create(
+	@twilio_client.account.messages.create(
       :from => fromnumber,
       :to => tonumber,
       :body => message
     )
+  render json: "Success: message '#{message}' sent to {tonumber} "
 
-	 render json: "Message sent"
+	rescue Twilio::REST::RequestError => e
+      render json: e.message
+  end
   end
 
 
