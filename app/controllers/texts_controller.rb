@@ -20,7 +20,7 @@ class TextsController < ApplicationController
       :to => tonumber,
       :body => message
     )
-  render json: "Success: message '#{message}' sent to {tonumber} "
+  render json: "Success: message '#{message}' sent to #{tonumber} "
 
 	rescue Twilio::REST::RequestError => e
       render json: e.message
